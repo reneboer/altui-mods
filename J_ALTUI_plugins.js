@@ -313,7 +313,10 @@ var ALTUI_PluginDisplays= ( function( window, undefined ) {
 				html += "<div class='col-xs-3'>";
 					html += ("<span class='altui-temperature' >"+((curTemp!=null) ? (parseFloat(curTemp).toFixed(1)+"&deg;"+ws.tempFormat) : "--") +"</span>");
 				html += "</div>";
-				html += "<div class='col-xs-3'>";
+//Rene Boer start better drawing of thermostat for me. Else on large it spills below drawing box fo device
+//				html += "<div class='col-xs-3'>";
+				html += "<div class='col-xs-3 col-lg-4'>";
+// Rene Boer end				
 					var heatsetpoint = heatsetpoint_target || parseFloat($("#altui-heatsetpoint-"+device.altuiid).text()) || heatsetpoint_current;
 					if (heatsetpoint!=null) {
 						var v = heatsetpoint_current ? parseFloat(heatsetpoint_current).toFixed(1)+"&deg;"+ws.tempFormat : "";
@@ -323,7 +326,10 @@ var ALTUI_PluginDisplays= ( function( window, undefined ) {
 						html += ("<span class='altui-temperature-heater altui-red' id='altui-heatsetpoint-"+device.altuiid+"'>"+parseFloat(heatsetpoint).toFixed(1)+"&deg;"+ws.tempFormat+"</span>");
 					}
 				html += "</div>";
-				html += "<div class='col-xs-3'>";
+//Rene Boer start
+//				html += "<div class='col-xs-3'>";
+				html += "<div class='col-xs-3 col-lg-4'>";
+// Rene Boer end				
 					var coldsetpoint = coldsetpoint_target || parseFloat($("#altui-coldsetpoint-"+device.altuiid).text()) || coldsetpoint_current
 					if ((isHeater==false) && (coldsetpoint!=null)) {
 						v = coldsetpoint_current ? parseFloat(coldsetpoint_current).toFixed(1)+"&deg;"+ws.tempFormat : "";
@@ -1453,7 +1459,7 @@ var ALTUI_PluginDisplays= ( function( window, undefined ) {
 					" <div class='row'>";
 				for (var btnid=0; btnid<actBtns.length; btnid++) {
 					if (actBtns[btnid] !== undefined) {
-						html += "<div class='altui-harmony-col col-xs-6 col-sm-2 col-lg-1'>";
+						html += "<div class='altui-harmony-col col-xs-6 col-sm-3 col-md-2 col-lg-1'>";
 						html+= "<button id='{0}' type='button' class='altui-harmony-open altui-harmony-cp-act-{3} btn btn-{2} btn-xs'>{1}</button>".format(actBtns[btnid].value, actBtns[btnid].label,(actBtns[btnid].value==activity) ? 'primary' : 'default',device.altuiid);
 						html += "</div>";
 					}              
@@ -1463,20 +1469,20 @@ var ALTUI_PluginDisplays= ( function( window, undefined ) {
 				html += "<div style='height: 20px;'>&nbsp;</div>"+
 					"<div class='container-fluid'>"+
 					" <div class='row' style='height: 20px;'>"+
-					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-lg-2'>Link Status:</div>"+
-					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-lg-2'>"+MultiBox.getStatus(device, 'urn:rboer-com:serviceId:Harmony1', 'LinkStatus')+"</div>"+
+					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-md-3 col-lg-2'>Link Status:</div>"+
+					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-md-2 col-lg-2'>"+MultiBox.getStatus(device, 'urn:rboer-com:serviceId:Harmony1', 'LinkStatus')+"</div>"+
 					" </div>"+
 					" <div class='row' style='height: 20px;'>"+
-					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-lg-2'>Current Activity ID:</div>"+
-					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-lg-2'>"+MultiBox.getStatus(device, 'urn:rboer-com:serviceId:Harmony1', 'CurrentActivityID')+"</div>"+
+					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-md-3 col-lg-2'>Current Activity ID:</div>"+
+					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-md-2 col-lg-2'>"+MultiBox.getStatus(device, 'urn:rboer-com:serviceId:Harmony1', 'CurrentActivityID')+"</div>"+
 					" </div>"+
 					" <div class='row' style='height: 20px;'>"+
-					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-lg-2'>Last command:</div>"+
-					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-lg-2'>"+MultiBox.getStatus(device, 'urn:rboer-com:serviceId:Harmony1', 'LastCommand')+"</div>"+
+					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-md-3 col-lg-2'>Last command:</div>"+
+					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-md-2 col-lg-2'>"+MultiBox.getStatus(device, 'urn:rboer-com:serviceId:Harmony1', 'LastCommand')+"</div>"+
 					" </div>"+
 					" <div class='row' style='height: 20px;'>"+
-					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-lg-2'>Last command time:</div>"+
-					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-lg-2'>"+MultiBox.getStatus(device, 'urn:rboer-com:serviceId:Harmony1', 'LastCommandTime')+"</div>"+
+					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-md-3 col-lg-2'>Last command time:</div>"+
+					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-md-2 col-lg-2'>"+MultiBox.getStatus(device, 'urn:rboer-com:serviceId:Harmony1', 'LastCommandTime')+"</div>"+
 					" </div>"+
 					"</div>";
 				html += "</div>";
@@ -1595,7 +1601,7 @@ var ALTUI_PluginDisplays= ( function( window, undefined ) {
 					" <div class='row'>";
 				for (var btnid=0; btnid<actBtns.length; btnid++) {
 					if (actBtns[btnid] !== undefined) {
-						html += "<div class='altui-harmony-col col-xs-6 col-sm-2 col-lg-1'>";
+						html += "<div class='altui-harmony-col col-xs-6 col-sm-3 col-md-2 col-lg-1'>";
 						html+= "<button id='{0}' type='button' class='altui-harmony-open altui-harmonydevice-cp-cmd-{2} btn btn-default btn-xs'>{1}</button>".format(actBtns[btnid].value, actBtns[btnid].label, device.altuiid);
 						html += "</div>";
 					}              
@@ -1605,12 +1611,12 @@ var ALTUI_PluginDisplays= ( function( window, undefined ) {
 				html += "<div style='height: 20px;'>&nbsp;</div>"+
 					"<div class='container-fluid'>"+
 					" <div class='row' style='height: 20px;'>"+
-					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-lg-2'>Controlling Hub:</div>"+
-					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-lg-2'>"+MultiBox.getStatus(device, 'urn:rboer-com:serviceId:HarmonyDevice1', 'HubName')+"</div>"+
+					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-md-3 col-lg-2'>Controlling Hub:</div>"+
+					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-md-2 col-lg-2'>"+MultiBox.getStatus(device, 'urn:rboer-com:serviceId:HarmonyDevice1', 'HubName')+"</div>"+
 					" </div>"+
 					" <div class='row' style='height: 20px;'>"+
-					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-lg-2'>Last command:</div>"+
-					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-lg-2'>"+MultiBox.getStatus(device, 'urn:rboer-com:serviceId:HarmonyDevice1', 'LastDeviceCommand')+"</div>"+
+					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-md-3 col-lg-2'>Last command:</div>"+
+					"  <div class='altui-harmony-col col-xs-6 col-sm-4 col-md-2 col-lg-2'>"+MultiBox.getStatus(device, 'urn:rboer-com:serviceId:HarmonyDevice1', 'LastDeviceCommand')+"</div>"+
 					" </div>"+
 					"</div>";
 				html += "</div>";

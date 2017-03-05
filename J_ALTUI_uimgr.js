@@ -2240,6 +2240,31 @@ var UIManager  = ( function( window, undefined ) {
 		$('#deviceCreateModal').modal();
 	};
 	
+// Rene Boer start		
+	// Find the correct device type for devices suppoting multiple JSON files.
+	function _getDeviceDrawMapping(device) {
+		if (device.device_type.startsWith('urn:schemas-dcineco-com:device:MSwitch')) {
+			// replace MSwitchxxxxx by MSwitch
+			var elems = device.device_type.split(':');
+			elems[3] = "MSwitch";
+			devicetype = elems.join(':');
+		} else if (device.device_type.startsWith('urn:schemas-rboer-com:device:HarmonyDevice')) {
+			// replace HarmonyDevicexxxxx by HarmonyDevice
+			var elems = device.device_type.split(':');
+			elems[3] = "HarmonyDevice";
+			devicetype = elems.join(':');
+		} else if (device.device_type.startsWith('urn:schemas-rboer-com:device:Harmony')) {
+			// replace Harmonyxxxxx by Harmony
+			var elems = device.device_type.split(':');
+			elems[3] = "Harmony";
+			devicetype = elems.join(':');
+		} else {
+			devicetype = device.device_type;
+		}	
+		return devicetype;
+	}
+// Rene Boer end
+
 	function _deviceDrawActions(device) {
 		
 		// 0:name 1:name
@@ -2585,7 +2610,6 @@ var UIManager  = ( function( window, undefined ) {
 		// get ALTUI plugin definition to see if we have a custom icon drawing , so allways on master controller => 0!
 		//
 		var _devicetypesDB = MultiBox.getALTUITypesDB();	// master controller
-		
 		if (device==null)
 			return "<img class='altui-device-icon pull-left img-rounded' data-org-src='/err' src='{0}' alt='_todo_' onerror='UIManager.onDeviceIconError(\"{1}\")' {2} ></img>".format(
 				defaultIconSrc,
@@ -2594,8 +2618,13 @@ var UIManager  = ( function( window, undefined ) {
 				);
 			// return "<img class='altui-device-icon pull-left img-rounded' data-org-src='/err' src='"+defaultIconSrc+"' alt='_todo_' "+(zindex ? "style='z-index:{0}'" : "")+" onerror='UIManager.onDeviceIconError(\""+device.altuiid+"\")' ></img>";		
 		// if there is a custom function, use it
-		if (_devicetypesDB[ device.device_type ]!=null && _devicetypesDB[ device.device_type ].DeviceIconFunc!=null) {
-			return  Altui_ExecuteFunctionByName(_devicetypesDB[ device.device_type ].DeviceIconFunc, window, device);
+// Rene Boer start
+//		if (_devicetypesDB[ device.device_type ]!=null && _devicetypesDB[ device.device_type ].DeviceIconFunc!=null) {
+//			return  Altui_ExecuteFunctionByName(_devicetypesDB[ device.device_type ].DeviceIconFunc, window, device);
+		var dt = _devicetypesDB[_getDeviceDrawMapping(device)];
+		if (dt!=null && dt.DeviceIconFunc!=null) {
+			return  Altui_ExecuteFunctionByName(dt.DeviceIconFunc, window, device);
+// Rene Boer start
 		}
 		
 		//otherwise
@@ -2654,30 +2683,16 @@ var UIManager  = ( function( window, undefined ) {
 				// get ALTUI plugins definition, 
 				//
 				var _devicetypesDB = MultiBox.getALTUITypesDB();	// master controller / Plugin information
-				var devicetype = device.device_type;
-				var devicejson = device.device_json || ""
-				if (device.device_type.startsWith('urn:schemas-dcineco-com:device:MSwitch')) {
-					// replace MSwitchxxxxx by MSwitch
-					var elems = device.device_type.split(':');
-					elems[3] = "MSwitch";
-					devicetype = elems.join(':');
 // Rene Boer start				
-				} else {
-					if (device.device_type.startsWith('urn:schemas-rboer-com:device:HarmonyDevice')) {
-						// replace HarmonyDevicexxxxx by HarmonyDevice
-						var elems = device.device_type.split(':');
-						elems[3] = "HarmonyDevice";
-						devicetype = elems.join(':');
-					} else {
-						if (device.device_type.startsWith('urn:schemas-rboer-com:device:Harmony')) {
-							// replace Harmonyxxxxx by Harmony
-							var elems = device.device_type.split(':');
-							elems[3] = "Harmony";
-							devicetype = elems.join(':');
-						}	
-					} 
+//				var devicetype = device.device_type;
+				var devicejson = device.device_json || ""
+//				if (device.device_type.startsWith('urn:schemas-dcineco-com:device:MSwitch')) {
+//					// replace MSwitchxxxxx by MSwitch
+//					var elems = device.device_type.split(':');
+//					elems[3] = "MSwitch";
+//					devicetype = elems.join(':');
+				var devicetype = _getDeviceDrawMapping(device);
 // Rene Boer end
-				}
 				
 				var devicebodyHtml = "";
 				var bFound = false
@@ -3377,26 +3392,9 @@ var UIManager  = ( function( window, undefined ) {
 		var _altuitypesDB = MultiBox.getALTUITypesDB();	// Master controller
 // Rene Boer start				
 //		var dt = _altuitypesDB[device.device_type];
-		var devicetype = device.device_type;
-console.log("org device type "+device.device_type);		
-		if (device.device_type.startsWith('urn:schemas-rboer-com:device:HarmonyDevice')) {
-			// replace HarmonyDevicexxxxx by HarmonyDevice
-			var elems = device.device_type.split(':');
-			elems[3] = "HarmonyDevice";
-			devicetype = elems.join(':');
-		} else {
-			if (device.device_type.startsWith('urn:schemas-rboer-com:device:Harmony')) {
-				// replace Harmonyxxxxx by Harmony
-				var elems = device.device_type.split(':');
-				elems[3] = "Harmony";
-				devicetype = elems.join(':');
-			}	
-		} 
-		var dt = _altuitypesDB[devicetype];
-console.log("device type "+devicetype+" idx "+tabidx);		
-		if (dt!=null && dt.ControlPanelFunc!=null && ((tabidx==0 && devicetype == "urn:schemas-upnp-org:device:altui:1") || (tabidx==1 && devicetype != "urn:schemas-upnp-org:device:altui:1"))) {
-//		if (dt!=null && dt.ControlPanelFunc!=null && (tabidx==1)) {
+		var dt = _altuitypesDB[_getDeviceDrawMapping(device)];
 // Rene Boer end
+		if (dt!=null && dt.ControlPanelFunc!=null && (tabidx==0)) {
 			Altui_ExecuteFunctionByName(dt.ControlPanelFunc, window, device, parent);
 			// _fixHeight( parent );
 		}
@@ -3867,8 +3865,11 @@ http://192.168.1.16/port_3480/data_request?id=lu_reload&rand=0.7390809273347259&
 				var _altuitypesDB = MultiBox.getALTUITypesDB();					// for ALTUI plugin info
 				var ui_static_data = MultiBox.getDeviceStaticData(device);
 				if (ui_static_data!=null) {
-					var bExtraTab = (_altuitypesDB[device.device_type] && _altuitypesDB[device.device_type].ControlPanelFunc!=null);
-console.log("device type 2 "+device.device_type+ ", extra tab "+bExtraTab);		
+// Rene Boer start
+//					var bExtraTab = (_altuitypesDB[device.device_type] && _altuitypesDB[device.device_type].ControlPanelFunc!=null);
+					var dt = _altuitypesDB[_getDeviceDrawMapping(device)];
+					var bExtraTab = (dt && dt.ControlPanelFunc!=null);
+// Rene Boer end
 					$(panel_body).append( "<div class='row'>" + _createDeviceTabs( device, bExtraTab, ui_static_data.Tabs ) + "</div>" );
 				}
 
@@ -4322,7 +4323,10 @@ console.log("device type 2 "+device.device_type+ ", extra tab "+bExtraTab);
 				break;
 			default:
 				var _altuitypesDB = MultiBox.getALTUITypesDB();	// Master controller
-				var dt = _altuitypesDB[device.device_type];
+// Rene Boer start
+//				var dt = _altuitypesDB[device.device_type];
+				var dt = _altuitypesDB[_getDeviceDrawMapping(device)];
+// Rene Boer end
 				if (dt!=null && dt.FavoriteFunc!=null ) {
 					html += Altui_ExecuteFunctionByName(dt.FavoriteFunc, window, device);
 				}
