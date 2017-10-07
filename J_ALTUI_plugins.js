@@ -52,7 +52,10 @@ var ALTUI_PluginDisplays= ( function( window, undefined ) {
 		style += ".altui-colorpicker { margin-top: 2px; width:30px; margin-right: 15px; }";	
 		style += ".altui-infoviewer-log-btn,.altui-infoviewer-btn,.altui-window-btn,.altui-datamine-open { margin-top: 10px; }";	
 		style += ".altui-infoviewer-pattern { font-size: 14px; }";	
-		style += "div.altui-windowcover button.btn-sm { width: 2.9em; padding:1px;}";
+//RB Change start
+//		style += "div.altui-windowcover button.btn-sm { width: 2.9em; padding:1px;}";
+		style += "div.altui-windowcover button.btn-sm { width: 2.9em; padding:1px; overflow: hidden;}";
+//RB Change end
 		style += ".altui-sonos-text, .altui-combsw-text, .altui-sysmon-text, .altui-veraalerts-text {font-size: 11px;}";
 		style += ".altui-multistring-text-div { margin-top: 2px; height: 48px; overflow: hidden; }"
         style += ".altui-multistring-text-some { font-size: 11px; }";

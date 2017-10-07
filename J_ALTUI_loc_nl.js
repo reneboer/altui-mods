@@ -151,7 +151,7 @@ Localization.init( {
 	"Localize":"Lokaliseer",
 	"Localizations":"Lokalisaties",
 	"Power Chart":"Vermogensgrafiek",
-	"Power":"Vermogen",
+	"Power":"Engergieverbruik",
 	"Localization information":"Lokalisatie informatie",
 	"Mesh":"Netwerk",
 	"Order By":"Sorteer op",
@@ -478,7 +478,7 @@ Localization.init( {
 // override rules with localized version
 SpeechManager.initRules([
 	{r:"(zet aan|schakelaar aan|open).*\\s+(%name%)", t:"device", a:{service:"urn:upnp-org:serviceId:SwitchPower1", action:"SetTarget", params:"{ \"newTargetValue\":1}"}},
-	{r:"(zet uit|schakelaar uit|close).*\\s+(%name%)", t:"device", a:{service:"urn:upnp-org:serviceId:SwitchPower1", action:"SetTarget", params:"{ \"newTargetValue\":0}"}},
+	{r:"(zet uit|schakelaar uit|sluit).*\\s+(%name%)", t:"device", a:{service:"urn:upnp-org:serviceId:SwitchPower1", action:"SetTarget", params:"{ \"newTargetValue\":0}"}},
 	{r:"(run|start).*\\s+(%name%)", t:"scene" },
 	{r:"(toon|open).*\\s+(%name%)", t:"altui" },
 	{r:"(toon|open).*\\s+(%name%)", t:"room" }
